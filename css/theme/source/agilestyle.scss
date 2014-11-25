@@ -1,0 +1,52 @@
+/**
+ * AgileStyle theme for reveal.js.
+ *
+ * By AgileStyle 2014
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+@import "fonts/agilestyle/stylesheet";
+@import url(http://fonts.googleapis.com/css?family=Bitter:700);
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #1a355e;
+
+$mainFont: "verbregular",sans-serif;
+$linkColor: #bdd73d;
+$linkColorHover: lighten( $linkColor, 20% );
+$headingFont: "Bitter",serif;
+$headingTextShadow: none;
+$headingLetterSpacing: 0;
+$headingTextTransform: none;
+$selectionBackgroundColor: #e7ad52;
+$mainFontSize: 30px;
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+#logo_container {
+  position: absolute;
+  right: 135px;
+  bottom: 42px;
+}
+
+.reveal {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+  }
+}
