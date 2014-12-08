@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACE,sBAAe;EACb,WAAW,EAAE,SAAS",
+"sources": ["source/elixir.scss"],
+"names": [],
+"file": "elixir.css"
+}

@@ -49,7 +49,8 @@ module.exports = function(grunt) {
           'css/theme/moon.css': 'css/theme/source/moon.scss',
           'css/theme/solarized.css': 'css/theme/source/solarized.scss',
           'css/theme/blood.css': 'css/theme/source/blood.scss',
-          'css/theme/agilestyle.css': 'css/theme/source/agilestyle.scss'
+          'css/theme/agilestyle.css': 'css/theme/source/agilestyle.scss',
+          'css/addon/elixir.css': 'css/addon/source/elixir.scss'
         }
       }
     },
