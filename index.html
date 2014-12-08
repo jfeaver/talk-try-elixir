@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="css/reveal.min.css">
     <link rel="stylesheet" href="css/theme/agilestyle.css" id="theme">
+    <link rel="stylesheet" href="css/addon/elixir.css" id="addon-elixir">
 
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -47,7 +48,7 @@
       <div class="slides">
         <section>
           <h1>Functional Programming with Elixir</h1>
-          <h3>(and Ruby)</h3>
+          <h3>(and Ruby?)</h3>
           <p>
           <small>Nathan Feaver, Senior Developer @ AgileStyle</small>
           </p>
@@ -58,40 +59,176 @@
             <h2>Why Elixir?</h2>
           </section>
           <section>
-            <h2>How I got hooked</h2>
+            <h2>Curiosity About Functional Languages</h2>
+          </section>
+          <section>
+            <h2>One Thing Led to Another</h2>
             <div class='pipeline-list'>
-            Ruby
-              <span class='list-item'>|&gt; Dave Thomas</span>
-              <span class='list-item'>|&gt; José Valim</span>
-              <span class='list-item'>|&gt; Elixir</span>
+              Ruby
+                <span class='list-item'><span class='pipe-operator'>|&gt;</span> Dave Thomas</span>
+                <span class='list-item'><span class='pipe-operator'>|&gt;</span> José Valim</span>
+                <span class='list-item'><span class='pipe-operator'>|&gt;</span> Elixir</span>
+                <span class='list-item'><span class='pipe-operator'>|&gt;</span> Ruby-like Syntax</span>
             </div>
+            <pre><code data-trim class='elixir'>
+defmodule MyPlug do
+  import Plug.Conn
+
+  def init(options) do
+    # initialize options
+
+    options
+  end
+
+  def call(conn, _opts) do
+    conn
+    |&gt; put_resp_content_type("text/plain")
+    |&gt; send_resp(200, "Hello world")
+  end
+end
+
+Plug.Adapters.Cowboy.http MyPlug, []
+IO.puts "Running MyPlug with Cowboy on http://localhost:4000"
+            </code></pre>
           </section>
           <section>
-            <h2>Technical Excellence</h2>
+            <h2>The Bottom Line</h2>
             <ul>
-              <li></li>
-              <li></li>
+              <li>Built on the Erlang VM (BEAM)
+                <ul>
+                  <li>Mature Language/Tools/Community</li>
+                  <li>Concurrency (OTP)</li>
+                  <li>Distributed (OTP)</li>
+                  <li>Fault Tolerant</li>
+                  <li>Speed</li>
+                  <li>Hot code swapping</li>
+                </ul>
+              </li>
+              <li>Macros</li>
+              <li>Protocols</li>
+              <li>José is a strong leader</li>
             </ul>
+            <aside class='notes'>
+              Protocols allow you to implement polymorphisms such as: Enumerable, blank?, to_string
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Learning Some Elixir</h2>
+            <h4>Let's see some action!</h2>
           </section>
           <section>
-            <h2>Value in knowing functional programming</h2>
-            <p>OOP languages have moved more and more toward having functional elements</p>
-            <blockquote cite="http://sdtimes.com/code-watch-two-great-paradigms-taste-great-together/">
-              "Those who can move between functional and object-oriented paradigms can deliver more value to
-              customers and that, not mathematical purity or tribal membership, is why you should be learning
-              functional techniques." ~ Larry O'Brien, SDTimes.com
-            </blockquote>
+            <h2>Functions are First Class Objects</h2>
+            <pre><code data-trim class='elixir'>
+iex> add = fn a, b -> a + b end
+# #Function<12.71889879/2 in :erl_eval.expr/5>
+            </code></pre>
+          </section>
+          <section>
+            <h2>Immutability</h2>
+          </section>
+          <section>
+            <h2>Pattern Matching</h2>
+            <pre><code data-trim class='elixir'>
+a = [ 1,2,3 ]
+b = [[ 1,2,3 ]]
+[c] = [[ 1,2,3 ]]
+a == c #=> true
+            </code></pre>
+            <pre><code data-trim class='elixir'>
+defmodule MyApp do
+  def callback(:ok, data) do
+    # success
+  end
+
+  def callback(:error, data) do
+    # handle failure
+  end
+end
+            </code></pre>
+          </section>
+          <section>
+            <h2>Concurrency/Distribution</h2>
+          </section>
+          <section>
+            <h2>Head | Tail Recursion</h2>
           </section>
         </section>
 
         <section>
-          <h2>Functional Programming</h2>
-          <h4>Let's see some action!</h2>
-        </section>
-
-        <section>
-          <h2>Coming Back to Ruby</h2>
-          <h4>Can I apply this in my day job?</h4>
+          <section>
+            <h2>Coming Back to Ruby</h2>
+            <h4>Can I apply this in my day job?</h4>
+          </section>
+          <section>
+            <h2>Updating Records Functionally?</h2>
+            <pre><code data-trim class='ruby'>
+it 'releases one invite credit when it is withdrawn' do
+  sender = @invite.sender
+  expect{ @invite.withdraw; sender.reload }.
+    to change{ sender.available_invite_credits.length }.
+    by(1)
+end
+            </code></pre>
+            <pre><code data-trim class='ruby'>
+it 'releases one invite credit when it is withdrawn' do
+  sender = @invite.sender
+  expect{ @invite.withdraw }.
+    to change{ User.available_invite_credits(sender.id).length }.
+    by(1)
+end
+            </code></pre>
+          </section>
+          <section>
+            <h2>Another Attempt</h2>
+            <pre><code data-trim class='ruby'>
+# find the author counts
+author_counts = []
+author_counts_index = -1
+current_author = ''
+for i in 0...commits.length
+  commit = commits[i]
+  if commit.author == current_author
+    author_counts[author_counts_index][1] += 1
+  else
+    current_author = commit.author
+    author_counts &lt;&lt; [commit.author, 1]
+    author_counts_index += 1
+  end
+end
+            </code></pre>
+            <pre><code data-trim class='ruby'>
+commits.sort_by do |commit|
+  commit.author
+end.
+  chunk do |commit|
+    commit.author
+  end.
+    each do |author, author_commits|
+      puts "#{author} has #{author_commits.count} commits"
+    end
+            </code></pre>
+          </section>
+          <section>
+            <h2>Ruby is an OO Language, Default to OO Idioms</h2>
+            <ul>
+              <li>Use functional style blocks</li>
+              <li>Bottom-up versus Top-down</li>
+              <li>Tell Don't Ask</li>
+              <li>Read POODR by Sandi Metz</li>
+            </ul>
+            <br/>
+            <br/>
+            <p>
+              My approaches to some Ruby problems have probably changed in subtle ways.
+              Learning Elixir has been fun and will help me learn other languages (and
+              their strengths) faster. I'm probably also better prepared to
+              use Proc objects, the Proc#curry method, and Enumerator::Lazy objects
+              but directly practicing them would be even better (perhaps with katas).
+            </p>
+          </section>
         </section>
 
         <section>
@@ -99,33 +236,14 @@
           <ul>
             <li><code>brew install elixir</code></li>
             <li><a href="http://elixir-lang.org/">elixir-lang.org</a></li>
-            <li><cite>Programming Elixir</cite> – Dave Thomas</li>
             <li><a href="http://exercism.io/">Exercism.io</a></li>
+            <li><cite>Programming Elixir</cite> – Dave Thomas</li>
           </ul>
         </section>
 
         <section>
-          <h2>Pretty Code</h2>
-          <pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
-  }
-}
-          </code></pre>
-        </section>
-
-        <section>
           <h1>THE END</h1>
+          <h4>nathan@agilestyle.com</h4>
         </section>
 
       </div>
