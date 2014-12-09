@@ -183,5 +183,16 @@ body {
 .reveal h5,
 .reveal h6 {
   line-height: 1.1; }
+.reveal section.quotation .ldquo {
+  position: absolute;
+  top: 10px;
+  left: -50px;
+  font-size: 5em;
+  opacity: 0.5;
+  width: 100px;
+  float: left;
+  text-align: left; }
+.reveal section.quotation blockquote span.author {
+  padding-left: 50px; }
 
 /*# sourceMappingURL=agilestyle.css.map */

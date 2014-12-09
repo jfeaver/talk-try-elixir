@@ -112,6 +112,15 @@ IO.puts "Running MyPlug with Cowboy on http://localhost:4000"
               Protocols allow you to implement polymorphisms such as: Enumerable, blank?, to_string
             </aside>
           </section>
+          <section class='quotation'>
+            <blockquote><div class='ldquo'>&ldquo;</div>Elixir has changed the way I think about programming.  Not just in terms of "Oh, its a functional language", it's actually changed my conception of what it means to program.<span class="author">~ Dave Thomas</span></blockquote>
+          </section>
+          <section class='quotation'>
+            <blockquote><div class='ldquo'>&ldquo;</div>Programming in Erlang sucks. Elixir is everything good about Erlang and none — almost none — of the bad.<span class="author">~ Devin Torres</span></blockquote>
+            <aside class='notes'>
+              Devin Torres is a well-known contributor in the erlang open source community.
+            </aside>
+          </section>
         </section>
 
         <section>
@@ -121,9 +130,24 @@ IO.puts "Running MyPlug with Cowboy on http://localhost:4000"
           </section>
           <section>
             <h2>Functions are First Class Objects</h2>
-            <pre><code data-trim class='elixir'>
+            <pre><code data-trim class='iex'>
 iex> add = fn a, b -> a + b end
-# #Function<12.71889879/2 in :erl_eval.expr/5>
+#Function<12.71889879/2 in :erl_eval.expr/5>
+iex> add.( 1, 2 )
+3
+iex> shorthand_add = &( &1 + &2 )
+&:erlang.+/2
+iex> Enum.map([ 1,2,3 ], &( &1 * 2 ))
+[2, 4, 6]
+            </code></pre>
+            <pre><code data-trim class='iex'>
+defmodule MyApp do
+  def times_2( n ) do
+    n * 2
+  end
+end
+ex(16)> Enum.map([ 1,2,3 ], &MyApp.times_2/1)
+[2, 4, 6]
             </code></pre>
           </section>
           <section>
@@ -131,11 +155,18 @@ iex> add = fn a, b -> a + b end
           </section>
           <section>
             <h2>Pattern Matching</h2>
-            <pre><code data-trim class='elixir'>
-a = [ 1,2,3 ]
-b = [[ 1,2,3 ]]
-[c] = [[ 1,2,3 ]]
-a == c #=> true
+            <pre><code data-trim class='iex'>
+iex> a = [ 1,2,3 ]
+iex> b = [[ 1,2,3 ]]
+iex> [c] = [[ 1,2,3 ]]
+iex> a == c
+true
+iex> [ x,y,z ] = [ 1,2,3 ]
+iex> z
+3
+iex> "Elixir " &lt;&gt; rest = "Elixir Rocks!"
+iex> rest
+"Rocks!"
             </code></pre>
             <pre><code data-trim class='elixir'>
 defmodule MyApp do
@@ -148,6 +179,10 @@ defmodule MyApp do
   end
 end
             </code></pre>
+            <aside class='notes'>
+              pervasive
+              You're not assigning 1 to a, you're challenging elixir to find a way to make that true
+            </aside>
           </section>
           <section>
             <h2>Concurrency/Distribution</h2>
