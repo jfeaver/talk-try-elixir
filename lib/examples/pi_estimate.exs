@@ -1,15 +1,14 @@
 defmodule PiEstimate do
 
   def query(n) do
-    random_coordinates(n)
-      |> count_coordinates_inside_circle
+    Random.seed
+    count_coordinates_inside_circle(n)
       |> estimate_pi(n)
   end
 
-  defp random_coordinates(n) do
-    Random.seed
-    Enum.map(1..n, fn(_) ->
-      random_coordinate
+  defp count_coordinates_inside_circle(n) do
+    Enum.reduce(1..n, 0, fn(_n, count) ->
+      count + inside_circle?( random_coordinate )
     end)
   end
 
@@ -17,25 +16,17 @@ defmodule PiEstimate do
     [Random.uniform, Random.uniform]
   end
 
-  defp count_coordinates_inside_circle(coordinates) do
-    count = 0
-    Enum.reduce(coordinates, count, fn(coordinate, count) ->
-      count + count_the_coordinate(coordinate)
-    end)
-  end
-
-  defp count_the_coordinate([x, y]) when x*x + y*y > 1 do
+  defp inside_circle?([x, y]) when x*x + y*y > 1 do
     0
   end
 
-  defp count_the_coordinate([_x, _y]) do
+  defp inside_circle?([_x, _y]) do
     1
   end
 
   defp estimate_pi(count_inside_circle, count_total) do
     count_inside_circle / count_total * 4
   end
-
 end
 
 defmodule Random do
