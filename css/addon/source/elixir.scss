@@ -3,3 +3,15 @@
     font-family: monospace;
   }
 }
+
+#fizzbuzz-definition {
+  font-family: monospace;
+  .lhs {
+    vertical-align: middle;
+  }
+  .big-squigly {
+    font-size: 5em;
+    position: relative;
+    top: -0.1em;
+  }
+}

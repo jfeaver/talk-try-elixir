@@ -7,13 +7,13 @@ defmodule FizzBuzz do
   def fizz_word(_, 0, _), do: "Buzz"
   def fizz_word(_, _, n), do: n
 
-  def fizz_buzz(n) do
+  def fizzbuzz(n) do
     fizz_word( rem(n,3), rem(n,5), n )
   end
 
   def result(n) do
     Enum.map(1..n, fn(n) ->
-      fizz_buzz(n)
+      fizzbuzz(n)
     end)
   end
 

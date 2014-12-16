@@ -52,6 +52,65 @@
           <h3>Nathan Feaver, Senior Developer @ AgileStyle</h3>
           </p>
         </section>
+        <section>
+          <section>
+            <h2>Example: FizzBuzz</h2>
+            <table id='fizzbuzz-definition'>
+              <tbody>
+                <tr>
+                  <td class='lhs' rowspan="4" nowrap>fizzbuzz(n) =</td>
+                  <td class='lhs big-squigly' rowspan="4">{</td>
+                  <td>FizzBuzz <i>if</i> rem( n/3 ) = 0 and rem( n/5 ) = 0</td>
+                </tr>
+                <tr>
+                  <td>Fizz <i>if</i> rem( n/3 ) = 0</td>
+                </tr>
+                <tr>
+                  <td>Fizz <i>if</i> rem( n/5 ) = 0</td>
+                </tr>
+                <tr>
+                  <td>n</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section id='fizzbuzz'>
+            <h2>Example: FizzBuzz</h2>
+            <pre><code data-trim class='elixir'>
+defmodule FizzBuzz do
+  def fizz_word(0, 0, _), do: "FizzBuzz"
+  def fizz_word(0, _, _), do: "Fizz"
+  def fizz_word(_, 0, _), do: "Buzz"
+  def fizz_word(_, _, n), do: n
+
+  def fizzbuzz(n) do
+    fizz_word( rem(n,3), rem(n,5), n )
+  end
+
+  def result(n) do
+    Enum.map(1..n, fn(n) -&gt;
+      fizzbuzz(n)
+    end)
+  end
+
+  def print(n) do
+    result(n)
+      |&gt; Enum.join(", ")
+      |&gt; IO.puts
+  end
+end
+
+FizzBuzz.print(100)
+            </code></pre>
+            <a href='#/pattern-matching'>Pattern Matching</a> | <a href='#/pipe-operator'>Pipe Operator</a>
+            <aside class='notes'>
+              Functional Bits: pattern matching, pipe operator, recursion features
+            </aside>
+          </section>
+          <section class='quotation'>
+            <blockquote><div class='ldquo'>&ldquo;</div>Elixir has changed the way I think about programming.  Not just in terms of "Oh, its a functional language", it's actually changed my conception of what it means to program.<span class="author">~ Dave Thomas</span></blockquote>
+          </section>
+        </section>
 
         <section>
           <section>
@@ -95,6 +154,21 @@
               <li>Hot code swapping</li>
             </ul>
           </section>
+          <section>
+            <h2>Erlang libraries are simple to use!</h2>
+            <p>Elixir doesn't have built-in random or time libraries (although there are multiple packages).  Let's use Erlang's libraries:</p>
+            <pre><code data-trim class='elixir'>
+defmodule Random do
+  def uniform do
+    :random.uniform
+  end
+
+  def seed do
+    :random.seed(:erlang.now)
+  end
+end
+            </code></pre>
+          </section>
         </section>
 
         <section>
@@ -103,6 +177,12 @@
           </section>
           <section>
             <h2>It's Easy to Get Started</h2>
+            <ul>
+              <li>Ruby-like Syntax</li>
+              <li><a href="http://elixir-lang.org/getting_started/1.html">elixir-lang.org/getting_started/1.html</a></li>
+              <li><cite>Programming Elixir</cite> – Dave Thomas</li>
+              <li><a href="http://exercism.io/">Exercism.io</a></li>
+            </ul>
           </section>
           <section>
             <h2>Great Toolset for a Young Language</h2>
@@ -112,29 +192,6 @@
               <li>Bundler ~&gt; Hex</li>
               <li>IRb ~&gt; IEx</li>
               <li>RSpec ~&gt; ExUnit</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Ruby-Inspired Syntax</h2>
-            <pre><code data-trim class='elixir'>
-defmodule Recursion do
-  def print_multiple_times(msg, n) when n &lt;= 1 do
-    IO.puts msg
-  end
-
-  def print_multiple_times(msg, n) do
-    IO.puts msg
-    print_multiple_times(msg, n - 1)
-  end
-end
-            </code></pre>
-          </section>
-          <section>
-            <h2>Learning Resources</h2>
-            <ul>
-              <li><a href="http://elixir-lang.org/getting_started/1.html">elixir-lang.org/getting_started/1.html</a></li>
-              <li><cite>Programming Elixir</cite> – Dave Thomas</li>
-              <li><a href="http://exercism.io/">Exercism.io</a></li>
             </ul>
           </section>
         </section>
@@ -161,48 +218,67 @@ end
 
         <section>
           <section>
-            <h2>Learning Some Elixir</h2>
-            <h4>Let's see some action!</h2>
+            <h2>Some More Elixir</h2>
           </section>
           <section>
-            <h2>Functions are First Class Objects</h2>
-            <pre><code data-trim class='iex'>
-iex> add = fn a, b -> a + b end
-#Function<12.71889879/2 in :erl_eval.expr/5>
-iex> add.( 1, 2 )
-3
-iex> shorthand_add = &( &1 + &2 )
-&:erlang.+/2
-iex> Enum.map([ 1,2,3 ], &( &1 * 2 ))
-[2, 4, 6]
-            </code></pre>
-            <pre><code data-trim class='iex'>
-defmodule MyApp do
-  def times_2( n ) do
-    n * 2
+            <h2>Head | Tail Recursion</h2>
+            <pre><code data-trim class='elixir'>
+defmodule Math do
+  def sum_list([head|tail], accumulator) do
+    sum_list(tail, head + accumulator)
+  end
+
+  def sum_list([], accumulator) do
+    accumulator
   end
 end
-ex(16)> Enum.map([ 1,2,3 ], &MyApp.times_2/1)
-[2, 4, 6]
+
+Math.sum_list([1, 2, 3], 0) #=&gt; 6
             </code></pre>
+            Taken from: <a href="http://elixir-lang.org/getting_started/9.html">Elixir Getting Started: Recursion</a>
           </section>
           <section>
             <h2>Immutability</h2>
           </section>
           <section>
+            <h2>Concurrency/Distribution (OTP)</h2>
+            <pre><code data-trim class='elixir'>
+# Compile the module and create a process that evaluates `area_loop` in the shell
+pid = spawn(fn -&gt; Geometry.area_loop() end) #=&gt; #PID<0.40.0>
+
+# Send a message to `pid` that will match a pattern in the receive statement
+send pid, {:rectangle, 2, 3}
+#=&gt; Area = 6
+#   {:rectangle,2,3}
+
+send pid, {:circle, 2}
+#=&gt; Area = 12.56000000000000049738
+#   {:circle,2}
+
+# The shell is also a process, you can use `self` to get the current pid
+self() #=&gt; #PID<0.27.0>
+            </code></pre>
+            Taken from: <a href="http://learnxinyminutes.com/docs/elixir/">Learn X in Y Minutes - Elixir</a>
+            <aside class='notes'>
+              # Elixir relies on the actor model for concurrency. All we need to write
+              # concurrent programs in elixir are three primitives: spawning processes,
+              # sending messages and receiving messages.
+            </aside>
+          </section>
+          <section id='pattern-matching'>
             <h2>Pattern Matching</h2>
             <pre><code data-trim class='iex'>
-iex> a = [ 1,2,3 ]
-iex> b = [[ 1,2,3 ]]
-iex> [c] = [[ 1,2,3 ]]
-iex> a == c
+iex&gt; a = [ 1,2,3 ]
+iex&gt; b = [[ 1,2,3 ]]
+iex&gt; [c] = [[ 1,2,3 ]]
+iex&gt; a == c
 true
-iex> [ x,y,z ] = [ 1,2,3 ]
-iex> z
+iex&gt; [ x,y,z ] = [ 1,2,3 ]
+iex&gt; z
 3
-iex> "Elixir " &lt;&gt; rest = "Elixir Rocks!"
-iex> rest
-"Rocks!"
+iex&gt; "Today is " &lt;&gt; date = "Today is December 16th"
+iex&gt; date
+"December 16th"
             </code></pre>
             <pre><code data-trim class='elixir'>
 defmodule MyApp do
@@ -215,16 +291,35 @@ defmodule MyApp do
   end
 end
             </code></pre>
+            <a href='#/fizzbuzz'>Back To FizzBuzz</a>
             <aside class='notes'>
               pervasive
               You're not assigning 1 to a, you're challenging elixir to find a way to make that true
             </aside>
           </section>
-          <section>
-            <h2>Concurrency/Distribution</h2>
-          </section>
-          <section>
-            <h2>Head | Tail Recursion</h2>
+          <section id='pipe-operator'>
+            <h2>Pipe Operator</h2>
+            <p>
+              The pipe operator(<code>|&gt;</code>) is most helpful when
+              transforming data through a sequence.  The operator pipes
+              the result of an expression into the first argument of the
+              next function.  Confusing, nested function calls no longer
+              need temporary variables to make them readable:
+            </p>
+            <pre><code data-trim class='iex'>
+# Confusing, nested function calls
+def print(n) do
+  IO.puts( Enum.join( result(n), ", " ) )
+end
+
+# versus using the pipe operator
+def print(n) do
+  result(n)
+    |&gt; Enum.join(", ")
+    |&gt; IO.puts
+end
+            </code></pre>
+            <a href='#/fizzbuzz'>Back To FizzBuzz</a>
           </section>
         </section>
 
@@ -303,12 +398,13 @@ end.
         </section>
 
         <section>
-          <h2>Getting Started with Elixir</h2>
+          <h2>Okay! I want to try Elixir!</h2>
           <ul>
             <li><code>brew install elixir</code></li>
             <li><a href="http://elixir-lang.org/">elixir-lang.org</a></li>
             <li><a href="http://exercism.io/">Exercism.io</a></li>
             <li><cite>Programming Elixir</cite> – Dave Thomas</li>
+            <li>Distribution/Concurrency Tutorial: <a href="https://howistart.org/posts/elixir/1">How I Start. Elixir With José Valim: Portal</a></li>
           </ul>
         </section>
 

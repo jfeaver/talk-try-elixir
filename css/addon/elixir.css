@@ -1,4 +1,13 @@
 .reveal .pipe-operator {
   font-family: monospace; }
 
+#fizzbuzz-definition {
+  font-family: monospace; }
+  #fizzbuzz-definition .lhs {
+    vertical-align: middle; }
+  #fizzbuzz-definition .big-squigly {
+    font-size: 5em;
+    position: relative;
+    top: -0.1em; }
+
 /*# sourceMappingURL=elixir.css.map */
