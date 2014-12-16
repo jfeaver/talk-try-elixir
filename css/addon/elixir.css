@@ -2,7 +2,8 @@
   font-family: monospace; }
 
 #fizzbuzz-definition {
-  font-family: monospace; }
+  font-family: monospace;
+  font-size: 0.8em; }
   #fizzbuzz-definition .lhs {
     vertical-align: middle; }
   #fizzbuzz-definition .big-squigly {
