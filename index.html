@@ -121,15 +121,15 @@ FizzBuzz.print(100)
           </section>
           <section class='quotation'>
             <blockquote><div class='ldquo'>&ldquo;</div>Elixir has changed the way I think about programming.  Not just in terms of "Oh, its a functional language", it's actually changed my conception of what it means to program.<span class="author">~ Dave Thomas</span></blockquote>
-            Taken from: <a href="http://confreaks.com/videos/4119-elixirconf2014-opening-keynote-think-different">Think Different</a>
+            <small class='source'>Taken from: <a href="http://confreaks.com/videos/4119-elixirconf2014-opening-keynote-think-different">Think Different</a></small>
           </section>
           <section class='quotation'>
             <blockquote><div class='ldquo'>&ldquo;</div>I want to long term use [Elixir and the Phoenix Framework] to replace all of my client work and everything I want to build personally<span class="author">~ Chris McCord</span></blockquote>
-            Taken from: <a href="http://confreaks.com/videos/4132-elixirconf2014-rise-of-the-phoenix-building-an-elixir-web-framework">Rise of The Phoenix - Building an Elixir Web Framework</a>
+            <small class='source'>Taken from: <a href="http://confreaks.com/videos/4132-elixirconf2014-rise-of-the-phoenix-building-an-elixir-web-framework">Rise of The Phoenix - Building an Elixir Web Framework</a></small>
           </section>
           <section class='quotation'>
             <blockquote><div class='ldquo'>&ldquo;</div>Programming in Erlang sucks. Elixir is everything good about Erlang and none — almost none — of the bad.<span class="author">~ Devin Torres</span></blockquote>
-            Taken from: <a href="http://devintorr.es/blog/2013/01/22/the-excitement-of-elixir/">The Excitement of Elixir</a>
+            <small class='source'>Taken from: <a href="http://devintorr.es/blog/2013/01/22/the-excitement-of-elixir/">The Excitement of Elixir</a></small>
             <aside class='notes'>
               Devin Torres is a well-known contributor in the erlang open source community.
             </aside>
@@ -231,7 +231,7 @@ iex&gt; list = [{:a,1},{:b,2},{:a,3}]
 iex&gt; Enum.filter list, fn (thing) -&gt; match?({:a, _}, thing) end
 [a: 1, a: 3]
             </code></pre>
-            Taken from: <a href="http://devintorr.es/blog/2013/06/11/elixir-its-not-about-syntax/">Elixir: It's Not About Syntax</a>
+            <small class='source'>Taken from: <a href="http://devintorr.es/blog/2013/06/11/elixir-its-not-about-syntax/">Elixir: It's Not About Syntax</a></small>
             <aside class="notes">Built from the beginning with a focus on metaprogramming using macros</aside>
           </section>
           <section>
@@ -280,7 +280,7 @@ end
 
 Math.sum_list([1, 2, 3], 0) #=&gt; 6
             </code></pre>
-            Taken from: <a href="http://elixir-lang.org/getting_started/9.html">Elixir Getting Started: Recursion</a>
+            <small class='source'>Taken from: <a href="http://elixir-lang.org/getting_started/9.html">Elixir Getting Started: Recursion</a></small>
           </section>
           <section>
             <h2>Immutability</h2>
@@ -303,7 +303,7 @@ send pid, {:circle, 2}
 # The shell is also a process, you can use `self` to get the current pid
 self() #=&gt; #PID<0.27.0>
             </code></pre>
-            Taken from: <a href="http://learnxinyminutes.com/docs/elixir/">Learn X in Y Minutes - Elixir</a>
+            <small class='source'>Taken from: <a href="http://learnxinyminutes.com/docs/elixir/">Learn X in Y Minutes - Elixir</a></small>
             <aside class='notes'>
               # Elixir relies on the actor model for concurrency. All we need to write
               # concurrent programs in elixir are three primitives: spawning processes,
